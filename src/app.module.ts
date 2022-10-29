@@ -9,7 +9,7 @@ import { User } from "./users/user.model";
     providers: [],
     imports: [
         ConfigModule.forRoot({
-            envFilePath: `.${process.env.NODE_ENV}.env`
+            envFilePath: `${process.env.NODE_ENV}.env`
         }),
 
         SequelizeModule.forRoot({
