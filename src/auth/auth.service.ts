@@ -44,4 +44,8 @@ export class AuthService {
             throw new UnauthorizedException({message: 'password or phone is not corrected!'});
      
       }
+
+      testFunc() {
+            return true
+      }
 }
