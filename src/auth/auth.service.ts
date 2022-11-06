@@ -45,7 +45,4 @@ export class AuthService {
      
       }
 
-      testFunc() {
-            return true
-      }
 }
