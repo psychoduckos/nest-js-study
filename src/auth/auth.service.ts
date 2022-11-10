@@ -10,6 +10,7 @@ export class AuthService {
 
       constructor (private userService: UsersService,
             private jwtService: JwtService) {}
+            
 
       async login(userDto: CreateUserDto) {
             const user = await this.validateUser(userDto)
@@ -41,8 +42,6 @@ export class AuthService {
             if(user && passwordEquals) {
                   return user
             } 
-            throw new UnauthorizedException({message: 'password or phone is not corrected!'});
-     
+            throw new UnauthorizedException({message: 'password or phone is not corrected!'}); 
       }
-
 }
