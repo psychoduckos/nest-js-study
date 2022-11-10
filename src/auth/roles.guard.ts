@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
+import { CanActivate, ExecutionContext, HttpException, HttpStatus, Injectable, UnauthorizedException } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import { Observable } from "rxjs";
@@ -11,7 +11,7 @@ export class RolesGuard implements CanActivate {
             private reflector: Reflector ) {} 
       // вообще хуй знает что эта функция делает
       canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-            const requireRoles = this.reflector.getAllAndOverride(ROLES_KEY, [
+            const requireRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
                   context.getHandler(),
                   context.getClass()
             ])
@@ -30,10 +30,10 @@ export class RolesGuard implements CanActivate {
                   // непонятно
                   const user = this.jwtService.verify(token)
                   req.user = user; // непонятно
-                  return user.roles.some(role => requireRoles.incude(role.value)); 
+                  return user.roles.some(role => requireRoles.includes(role.value)); 
 
             } catch (error) {
-                  throw new UnauthorizedException({massege: 'User is not authorized'}) //выкинуть ошибку
+                  throw new HttpException('You does not have access', HttpStatus.FORBIDDEN) //выкинуть ошибку
             }
       }
 }
